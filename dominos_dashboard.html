@@ -107,11 +107,39 @@
       font-size: 22px;
       font-weight: bold;
     }
+	/* Main Month Dropdown */
+	#months {
+	font-size: 12px;         /* Bigger font */
+	padding: 4px 12px;       /* More padding */
+	border-radius: 3px;      /* Rounded edges */
+	background-color: #f0f8ff; /* Light blue background */
+	font-weight: bold;       /* Make text bold */
+	}
+
+	/* Compare Month Dropdown */
+	#compareMonth {
+	font-size: 12px;         /* Slightly smaller font */
+	padding: 6px 10px;       /* Less padding */
+	border-radius: 3px;      /* Slightly rounded */
+	background-color: #fff;  /* Keep default white */
+	font-weight: bold;
+	}
+
     .section {
       border-bottom: 2px solid green;
       padding: 10px 0;
       margin-bottom: 10px;
     }
+	.daily-average-section {
+	border-bottom: 5px solid green;  /* Thicker only for Daily Average */
+	padding: 15px 0;                 /* Extra spacing inside */
+	margin-bottom: 22px;             /* Extra gap after it */
+	}
+	.percent-change-section {
+	border-bottom: 5px solid green; /* thicker line */
+	padding: 15px 0;                /* extra spacing inside */
+	margin-bottom: 22px;            /* extra gap below */
+	}
     .section-left {
       float: left;
       width: 70%;
@@ -129,6 +157,36 @@
       font-size: 1.2em;
       font-weight: bold;
     }
+	.comparison-row {
+  display: grid;
+  grid-template-columns: 150px 80px 20px auto; /* Adjust widths */
+  gap: 3px;
+  font-weight: bold;
+  color: #00008B;
+  margin-top:12px;
+  margin-left:75px;
+  margin-bottom: 8px;
+  font-size: 1;
+}
+
+.comparison-row .label {
+  text-align: left;
+}
+
+.comparison-row .percent {
+  text-align: right;
+}
+
+.comparison-row .sep {
+  text-align: center;
+}
+
+.comparison-row .value {
+  text-align: left;
+}
+
+
+
     .clearfix {
       clear: both;
     }
@@ -156,62 +214,66 @@
 <div class="clearfix"></div>
 </div>
 <div class="section">
-<div class="section-left"><p>Total Energy Used</p></div>
+<div class="section-left"><p>Total Energy Consumption</p></div>
 <div class="section-right"><p class="value" id="energyUsed">N/A</p></div>
 <div class="clearfix"></div>
 </div>
-<div class="section">
-<div class="section-left"><p>Daily Average</p></div>
+<div class="section daily-average-section">
+<div class="section-left"><p>Daily Average Energy Consumption</p></div>
 <div class="section-right"><p class="value" id="monthlyAvg">N/A</p></div>
 <div class="clearfix"></div>
 </div>
 <div class="section">
-<div class="section-left"><p>Cost Change from Previous Month</p></div>
+<div class="section-left"><p>Percentage Change in Cost from Previous Month</p></div>
 <div class="section-right"><p class="value" id="costChange">N/A</p></div>
 <div class="clearfix"></div>
 </div>
 <div class="section">
-  <div class="section-left"><p>Saved Compared to Last Month</p></div>
+  <div class="section-left"><p>Savings from Previous Month</p></div>
   <div class="section-right"><p class="value" id="savedAmount">N/A</p></div>
   <div class="clearfix"></div>
 </div>
-<div class="section">
-<div class="section-left"><p>Percentage Change in Total Energy Used</p></div>
+<div class="section percent-change-section">
+<div class="section-left"><p>Percentage Change in Energy Consumption</p></div>
 <div class="section-right"><p class="value" id="percentChange">N/A</p></div>
 <div class="clearfix"></div>
 </div>
 <div class="section">
-<div class="section-left"><label for="compareMonth">Compare With Another Month:</label>
-<select id="compareMonth" onchange="updateComparison()"></select>
+  <div class="compare-container">
+    <label for="compareMonth">Compare With Another Month:</label>
+    <select id="compareMonth" onchange="updateComparison()"></select>
+
+    <!-- ✅ Results will be directly under the dropdown -->
+    <div id="comparisonResult"></div>
+  </div>
 </div>
-<div class="section-right" style="width: 70%;"><p class="value" id="comparisonResult">N/A</p></div>
-<div class="clearfix"></div>
-</div>
+
+
 </div>
 <script>
  const data = {
-  'Sep 2023': ['1,675,239', '580.98', '', 187626.768],
-  'Oct 2023': ['1,605,408', '539.85', '', 179805.696],
-  'Nov 2023': ['1,448,261', '502.68', '', 162205.232],
-  'Dec 2023': ['1,508,114', '511.07', '', 168908.768],
-  'Jan 2024': ['1,563,999', '539.05', '', 175167.888],
-  'Feb 2024': ['1,441,988', '517.42', '', 161502.656],
-  'Mar 2024': ['1,510,138', '507.29', '', 169135.456],
-  'Apr 2024': ['1,515,161', '525.30', '', 169698.032],
-  'May 2024': ['1,705,990', '550.62', '', 191070.88],
-  'Jun 2024': ['1,711,000', '592.69', '', 191632],
-  'Jul 2024': ['1,824,400', '618.59', '', 204332.8],
-  'Aug 2024': ['1,784,485', '599.43', '', 199862.32],
-  'Sep 2024': ['1,650,953', '576.70', '', 184906.736],
-  'Oct 2024': ['1,598,083', '536.40', '', 178985.296],
-  'Nov 2024': ['1,416,570', '491.41', '', 158655.84],
-  'Dec 2024': ['1,447,590', '487.00', '', 162130.08],
-  'Jan 2025': ['1,650,609', '545.64', '', 184868.208],
-  'Feb 2025': ['1,372,791', '506.87', '', 153752.592],
-  'Mar 2025': ['1,510,257', '506.58', '', 169148.784],
-  'Apr 2025': ['1,512,017', '522.90', '', 169345.904],
-  'May 2025': ['1,571,865', '526.59', '', 176048.88],
-  'Jun 2025': ['1,733,676', '600.15', '', 176048.88]
+   'Sep 2023': ['1,675,239', '55,841.3', '', 187626.768],
+  'Oct 2023': ['1,605,408', '51,787.4', '', 179805.696],
+  'Nov 2023': ['1,448,261', '48,275.37', '', 162205.232],
+  'Dec 2023': ['1,508,114', '48,648.8', '', 168908.768],
+  'Jan 2024': ['1,563,999', '50,451.6', '', 175167.888],
+  'Feb 2024': ['1,441,988', '49,723.7', '', 161502.656],
+  'Mar 2024': ['1,510,138', '48,714.1', '', 169135.456],
+  'Apr 2024': ['1,515,161', '50,505.3', '', 169698.032],
+  'May 2024': ['1,705,990', '55,031.9', '', 191070.88],
+  'Jun 2024': ['1,711,000', '57,033.3', '', 191632],
+  'Jul 2024': ['1,824,400', '58,851.6', '', 204332.8],
+  'Aug 2024': ['1,784,485', '57,564.03', '', 199862.32],
+  'Sep 2024': ['1,650,953', '55,031.77', '', 184906.736],
+  'Oct 2024': ['1,598,083', '51,575.39', '', 178985.296],
+  'Nov 2024': ['1,416,570', '47,219', '', 158655.84],
+  'Dec 2024': ['1,447,590', '46,696.45', '', 162130.08],
+  'Jan 2025': ['1,650,609', '53,245.45', '', 184868.208],
+  'Feb 2025': ['1,372,791', '47,337.62', '', 153752.592],
+  'Mar 2025': ['1,510,257', '48,717.97', '', 169148.784],
+  'Apr 2025': ['1,512,017', '50,400.57', '', 169345.904],
+  'May 2025': ['1,571,865', '50,705.32', '', 176048.88],
+  'Jun 2025': ['1,733,676', '57,789.2', '', 176048.88]
 };
     function populateDropdowns() {
       const months = Object.keys(data);
@@ -246,7 +308,17 @@
       document.querySelector("h1").innerText = `Energy Report for ${selected}`;
       document.getElementById("totalCost").innerText = `$${(cost / 1e3).toFixed(2)}K`;
       document.getElementById("energyUsed").innerText = `${(parseFloat(energy.replace(/,/g, "")) / 1e6).toFixed(2)}M kWh`;
-      document.getElementById("monthlyAvg").innerText = `${Math.round(parseFloat(avg))} kWh`;
+      let dailyAvg = parseFloat(avg.replace(/,/g, ''));
+
+// If it's 1000 or more, show in compact "k" format
+if (dailyAvg >= 1000) {
+  dailyAvg = (dailyAvg / 1000).toFixed(1) + "K";
+} else {
+  dailyAvg = dailyAvg.toFixed(1);
+}
+
+document.getElementById("monthlyAvg").innerText = `${dailyAvg} kWh`;
+
 
       if (currentIndex > 0) {
         const prevEnergy = parseFloat(data[months[currentIndex - 1]][0].replace(/,/g, ""));
@@ -289,8 +361,15 @@ document.getElementById("savedAmount").innerText = savedText;
       const e1 = parseFloat(energy1.replace(/,/g, ""));
       const e2 = parseFloat(energy2.replace(/,/g, ""));
       const energyChange = ((e1 - e2) / e2 * 100).toFixed(2);
-      const energyDiff = Math.abs(e1 - e2);
-      const energyDisplay = energyDiff >= 1e6 ? (energyDiff / 1e6).toFixed(2) + "M kWh" : energyDiff.toLocaleString() + " kWh";
+     const energyDiff = Math.abs(e1 - e2);
+
+// ✅ Compact format like Daily Average
+let formattedEnergyDiff;
+if (energyDiff >= 1000) {
+  formattedEnergyDiff = (energyDiff / 1000).toFixed(1) + "K kWh"; 
+} else {
+  formattedEnergyDiff = energyDiff.toLocaleString() + " kWh";
+}
 
       const c1 = cost1;
       const c2 = cost2;
@@ -301,9 +380,22 @@ document.getElementById("savedAmount").innerText = savedText;
       const signE = energyChange > 0 ? "+" : "";
       const signC = costChange > 0 ? "+" : "";
 
-      document.getElementById("comparisonResult").innerHTML =
-        `<strong>Energy:</strong> ${signE}${energyChange}% | ${energyDisplay}<br>
-         <strong>Cost:</strong> ${signC}${costChange}% | ${costDisplay}`;
+  document.getElementById("comparisonResult").innerHTML = `
+  <div class="comparison-row">
+    <span class="label">Energy Use:</span>
+    <span class="percent">${signE}${energyChange}%</span>
+    <span class="sep">|</span>
+    <span class="value">${formattedEnergyDiff}</span>
+  </div>
+  <div class="comparison-row">
+    <span class="label">Cost Differential:</span>
+    <span class="percent">${signC}${costChange}%</span>
+    <span class="sep">|</span>
+    <span class="value">${costDisplay}</span>
+  </div>
+`;
+
+
     }
 
     window.onload = populateDropdowns;
