@@ -7,13 +7,13 @@
   <title>Monthly Energy Report</title>
   <style>
     body {
-      margin: 0;
+      margin: 20px;
       padding: 0;
       background-color: #f2f2f2;
       font-family: Arial, sans-serif;
     }
     .page {
-      width: 120%;
+      width: 70%;
       max-width: 1140px;
       margin: 0 auto;
       padding: 30px 0;
@@ -23,7 +23,7 @@
       background-color: white;
     }
     .page img {
-      width: 55%;
+      width: 100%;
       height: auto;
       display: block;
       margin: 0px 0;
@@ -34,6 +34,41 @@
       border: none;
       overflow: hidden;
     }
+	
+	/* ✅ Mobile-specific styling */
+	@media screen and (max-width: 768px) {
+	  .page {
+		width: 95% !important;  /* Slightly wider for mobile */
+		padding: 15px;
+	  }
+	  
+		select {
+		  -webkit-appearance: menulist; /* ✅ Force iOS native dropdown */
+		  background: white;
+		}
+
+	  .page img {
+		max-width: 100% !important; /* Ensure images don't overflow */
+		height: auto;
+	  }
+
+	  iframe {
+		width: 100% !important;  /* Scale report iframe properly */
+		height: 450px !important; /* Reduce height for smaller screens */
+	  }
+	}
+
+	/* ✅ Extra small devices */
+	@media screen and (max-width: 480px) {
+	  .page {
+		width: 105% !important;
+		padding: 10px;
+	  }
+
+	  iframe {
+		height: 350px !important; /* Smaller iframe height on very small screens */
+	  }
+	}
   </style>
 </head>
 <body>
@@ -59,9 +94,9 @@
 	  background-color: white;
     }
     .container {
-      width: 46%;
+      width: 65%;
       margin: 0 auto;
-	  margin-top: -50px;
+	  margin-top: -30px;
       background-color: #F7F7FA;
       #border: 4px solid #074C77;
       border-radius: 1px;
@@ -71,9 +106,6 @@
       background-position: center;
       background-size: 480px;
       background-blend-mode: soft-light;
-    }
-      max-width: 500px;
-      margin: 0 auto;
     }
     .logo {
       text-align: center;
@@ -158,38 +190,62 @@
       font-weight: bold;
     }
 	.comparison-row {
-  display: grid;
-  grid-template-columns: 150px 80px 20px auto; /* Adjust widths */
-  gap: 3px;
-  font-weight: bold;
-  color: #00008B;
-  margin-top:12px;
-  margin-left:75px;
-  margin-bottom: 8px;
-  font-size: 1;
+	  display: grid;
+	  grid-template-columns: 150px 80px 20px auto; /* Adjust widths */
+	  gap: 3px;
+	  font-weight: bold;
+	  color: #00008B;
+	  margin-top:12px;
+	  margin-left:75px;
+	  margin-bottom: 8px;
+	  font-size: 1;
+	}
+
+	.comparison-row .label {
+	  text-align: left;
+	}
+
+	.comparison-row .percent {
+	  text-align: right;
+	}
+
+	.comparison-row .sep {
+	  text-align: center;
+	}
+
+	.comparison-row .value {
+	  text-align: left;
+	}
+	.clearfix {
+	  clear: both;
+	}
+	
+	/* ✅ Mobile-specific styling */
+@media screen and (max-width: 768px) {
+  .container {
+    width: 80% !important;  /* Slightly wider for mobile */
+    padding: 15px;
+  }
 }
 
-.comparison-row .label {
-  text-align: left;
+/* ✅ Extra small devices */
+@media screen and (max-width: 480px) {
+  .container {
+	font-size: 14px;
+    width: 100% !important;
+    padding: 10px;
+  }
 }
 
-.comparison-row .percent {
-  text-align: right;
+@media screen and (max-width: 768px) {
+  #comparisonResult {
+    font-size: 14px;        /* Slightly smaller text for mobile */
+  }
+  #comparisonResult .comparison-row {
+    display: block;         /* Stack rows on mobile */
+  }
 }
 
-.comparison-row .sep {
-  text-align: center;
-}
-
-.comparison-row .value {
-  text-align: left;
-}
-
-
-
-    .clearfix {
-      clear: both;
-    }
   </style>
 </head>
 <body>
