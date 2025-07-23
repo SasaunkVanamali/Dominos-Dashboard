@@ -237,7 +237,15 @@
       .main-container {
         width: 100%;
       }
-      
+      .comparison-row.single-line {
+    margin-left: 0 !important;        /* Remove big left margin */
+    gap: 4px;                         /* Reduce gap between label & value */
+  }
+
+  .comparison-row.single-line .label {
+    min-width: auto !important;       /* Let label shrink naturally */
+  }
+}
       .page-section {
         padding: 0;
       }
