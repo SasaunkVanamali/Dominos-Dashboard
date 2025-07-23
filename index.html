@@ -145,6 +145,23 @@
       font-size: 1.2em;
       font-weight: bold;
     }
+	/* ✅ Make Energy Differential single-line */
+.comparison-row.single-line {
+  display: flex !important;       /* Flex for one-line layout */
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-left: 75px;              /* Keep same left alignment */
+}
+
+.comparison-row.single-line .label {
+  min-width: 180px;               /* Align with Cost Differential */
+}
+
+.comparison-row.single-line .percent {
+  white-space: nowrap;            /* Prevent text wrap */
+}
+
     .comparison-row {
       display: grid;
       grid-template-columns: 150px 80px 20px auto;
@@ -204,10 +221,10 @@
         font-size: 14px;
       }
       #comparisonResult .comparison-row {
-        display: block;
+        display: inline-block;
         margin-left: 0;
       }
-
+	
       .comparison-row {
         margin-left: 0;
         grid-template-columns: 1fr;
@@ -440,8 +457,8 @@
       const signC = costChange > 0 ? "+" : "";
 
       document.getElementById("comparisonResult").innerHTML = `
-        <div class="comparison-row">
-          <span class="label">Energy Use:</span>
+        <div class="comparison-row single-line">
+          <span class="label">Energy Differential:</span>
           <span class="percent">${signE}${energyChange}%</span>
           <span class="sep">|</span>
           <span class="value">${formattedEnergyDiff}</span>
